@@ -1,0 +1,28 @@
+<h4> Register </h4>
+<% if flash[:errors] %>
+	<%= flash[:errors] %>
+<% end %> 
+<form action="/users/register" method="post">
+	<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+	<label>Name:</label>
+	<input type="text" name="user[name]">
+	<label>Email:</label>
+	<input type="email" name="user[email]">
+	<label>Password:</label>
+	<input type="password" name="user[password]">
+	<label>Password Confirmation:</label>
+	<input type="password" name="user[password_confirmation]">
+	<button>Register</button>
+</form>
+<h4> Login </h4>
+<% if flash[:errors] %>
+	<%= flash[:errors] %>
+<% end %> 
+<form action="/users/login" method="post">
+	<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+	<label>Email:</label>
+	<input type="email" name="email">
+	<label>Password:</label>
+	<input type="password" name="password">
+	<button>Login</button>
+</form>

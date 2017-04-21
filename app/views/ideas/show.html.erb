@@ -1,0 +1,20 @@
+<a href="/logout">Logout</a>
+<a href="/index">Dashboard</a>
+
+<% if @likes_by_idea_id.count != 0 %>
+	<h2> People who liked this post: </h2>
+	<table>
+		<tr>
+			<th><h4>Names of Users</h4></th>
+		</tr>
+		<% @likes_by_idea_id.each do |like| %>
+		<tr>
+			<td> 
+				<ul>
+					<a href="/users/<%= like.user.id %>"> <%= like.user.name %> </a> 
+				</ul>
+			</td>
+		</tr>
+		<% end %>
+	</table>
+<% end %>

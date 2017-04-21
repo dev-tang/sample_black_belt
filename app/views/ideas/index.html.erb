@@ -1,0 +1,72 @@
+<style>
+input[type=text], select {
+    width: 15%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+input[type=submit] {
+    width: 5%;
+    background-color: lightblue;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+input[type=submit]:hover {
+    background-color: grey;
+}
+
+div {
+    border-radius: 5px;
+    background-color: #f2f2f2;
+    padding: 20px;
+}
+</style>
+
+
+<h4> Welcome <%= @user.name %> </h4> <h4> <a href="/logout">Logout</a> </h4>
+
+<p> You can go ahead and add an idea! </p>
+
+<form action="/ideas/add_idea" method="post">
+	<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token%>">
+	<label>New Idea:</label>
+	<input type="text" name="message">
+	<button>Add</button>
+</form>
+
+<h3> What others are saying: </h3>
+<% @ideas.each do |idea| %>
+	<% if idea.user_id != @user.id %>
+		<p> <%= idea.message %> by <%= idea.user.name %> </p>
+		<form action="/ideas/<%= idea.id %>/like" method="post">
+		<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+		<input type="submit" name="like" value="Like">
+		</form>
+		<br>
+		<a href="/ideas/<%= idea.id %>"><%= idea.likes.count %> people</a> like this idea
+		<p> ____________________ </p>
+	<% end %>
+<% end %>
+<h3> What you've said: </h3>
+<% @ideas.each do |idea| %>
+	<% if @user.id == idea.user_id %>
+		<p> <%= idea.message %> by <%= idea.user.name %> </p>
+		<form action = "/ideas/<%= idea.id %>/delete" method="post">
+			<input type="hidden" name="authenticity_token" vaue="<%= form_authenticity_token %>">
+			<input type="hidden" name="_method" value="delete">
+			<input type="submit" name="destroy" value="Delete">
+		</form>
+		<br>
+		<a href="/ideas/<%= idea.id %>"><%= idea.likes.count %> people</a> like this idea
+		<p> ____________________ </p>
+	<% end %>
+<% end %>
